@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign-up page</title>
+</head>
+
+<body>
+    <h1>registration</h1>
+    <form id="form">
+        <input type="text" id="name" placeholder="enter name" required>
+        <input type="email" id="email" placeholder="enter your email-id" required>
+        <select name="gender" id="gender" required>
+            <option value=''>enter gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <input type="password" id="password" placeholder="enter password" required>
+        <input type="submit" value="submit">
+    </form>
+</body>
+
+</html>
+<script>
+    const url = "https://light-elk-neckerchief.cyclic.app/users/register";
+    let payload;
+    let form = document.getElementById("form");
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        let name = form.name.value;
+        let email = form.email.value;
+        let gender = form.gender.value;
+        let password = form.password.value;
+        payload = { name, email, gender, password };
+        console.log(payload);
+        register(payload);
+    });
+
+    async function register(payload) {
+        let res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'  
+            },
+            body: JSON.stringify(payload)
+        })
+        if(res.ok){
+            alert('successfully registered');
+            window.location.href='login.html';
+        }
+        else{
+            alert('something went wrong');
+        }      
+
+
+    }
+
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login_page</title>
+</head>
+<body>
+    <h1>Log In</h1>
+    <form id="form">
+        <input type="email" id="email" placeholder="enter your email-id" required>
+        <input type="password" id="password" placeholder="enter password" required>
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+
+<script>
+    const url = "https://light-elk-neckerchief.cyclic.app/users/login";
+    let payload;
+    let form = document.getElementById("form");
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        let email = form.email.value;
+        let password = form.password.value;
+        payload = { email, password };
+        // console.log(payload);
+        login(payload);
+    });
+
+    async function login(payload) {
+        let res = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'  
+            },
+            body: JSON.stringify(payload)
+        })
+        if(res.ok){
+            alert('Login successful');
+            let tk=await res.json();
+            console.log(tk);
+            localStorage.setItem('id_token',tk.token)
+            window.location.href='posts.html';
+        }
+        else{
+            alert('invalid credentials');
+        }      
+
+
+    }
+
+</script>
